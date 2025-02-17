@@ -24,6 +24,8 @@ export class TopPageAdvantage {
 }
 
 export class TopPageModel {
+  _id: string;
+
   firstCategory: TopLevelCategory;
 
   secondCategory: string;
