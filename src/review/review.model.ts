@@ -1,5 +1,6 @@
 import { SchemaFactory, Schema, Prop } from '@nestjs/mongoose';
-import { HydratedDocument } from 'mongoose';
+import { HydratedDocument, Schema as MSchema } from 'mongoose';
+import { ProductModel } from 'src/product/product.model';
 
 export type ReviewDocument = HydratedDocument<ReviewModel>;
 
@@ -16,6 +17,9 @@ export class ReviewModel {
 
   @Prop()
   rating: number;
+
+  @Prop({ type: [{ type: MSchema.Types.ObjectId, ref: ProductModel.name }] })
+  productId: ProductModel;
 }
 
 export const ReviewSchema = SchemaFactory.createForClass(ReviewModel);
