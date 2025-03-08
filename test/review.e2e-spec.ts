@@ -38,7 +38,19 @@ describe('AppController (e2e)', () => {
         createdId = body._id;
         expect(createdId).toBeDefined();
         done();
-      });
+      })
+      .catch(() => {});
+  });
+
+  it('/review/create (POST) - fail', (done) => {
+    request(app.getHttpServer())
+      .post('/review/create')
+      .send({ ...testDto, rating: 0 })
+      .expect(400)
+      .then(() => {
+        done();
+      })
+      .catch(() => {});
   });
 
   it('/review/byProduct/:productId (GET) - success', (done) => {
@@ -48,7 +60,8 @@ describe('AppController (e2e)', () => {
       .then(({ body }: request.Response) => {
         expect(body.length).toBe(1);
         done();
-      });
+      })
+      .catch(() => {});
   });
 
   it('/review/byProduct/:productId (GET) - fail', (done) => {
@@ -58,7 +71,8 @@ describe('AppController (e2e)', () => {
       .then(({ body }: request.Response) => {
         expect(body.length).toBe(0);
         done();
-      });
+      })
+      .catch(() => {});
   });
 
   it('/review/:id (DELETE) - success', () => {
