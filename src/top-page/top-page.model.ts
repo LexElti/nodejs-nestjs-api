@@ -66,6 +66,9 @@ export class TopPageModel {
 
   @Prop({ type: () => [String] })
   tags: string[];
+
+  @Prop()
+  updatedAt: string;
 }
 
 export const TopPageSchema = SchemaFactory.createForClass(TopPageModel);
