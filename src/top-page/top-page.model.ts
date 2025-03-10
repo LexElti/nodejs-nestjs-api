@@ -68,7 +68,7 @@ export class TopPageModel {
   tags: string[];
 
   @Prop()
-  updatedAt: string;
+  updatedAt: Date;
 }
 
 export const TopPageSchema = SchemaFactory.createForClass(TopPageModel);
