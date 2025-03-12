@@ -17,10 +17,14 @@ import { TopPageService } from './top-page.service';
 import { CreateTopPageDto } from './dto/create-top-page.dto';
 import { NOT_FOUND_TOP_PAGE_ERROR } from './top-page.constants';
 import { JwtAuthGuard } from '../auth/guards/jwt.guard';
+import { HhService } from '../hh/hh.service';
 
 @Controller('top-page')
 export class TopPageController {
-  constructor(private readonly topPageService: TopPageService) {}
+  constructor(
+    private readonly topPageService: TopPageService,
+    private readonly hhService: HhService,
+  ) {}
 
   @UseGuards(JwtAuthGuard)
   @Post('create')
@@ -76,5 +80,15 @@ export class TopPageController {
   @Get('textSearch/:text')
   async textSearch(@Param('text') text: string) {
     return this.topPageService.findByText(text);
+  }
+
+  @Post('test')
+  async test() {
+    const data = await this.topPageService.findForHhUpdate(new Date());
+    for (const page of data) {
+      const hhData = await this.hhService.getData(page.category);
+      page.hh = hhData;
+      await this.topPageService.updateById(page._id, page);
+    }
   }
 }
